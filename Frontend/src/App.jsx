@@ -25,7 +25,7 @@ import { io } from "socket.io-client";
 import { SERVER_URI } from "../utils/contanst.js";
 import { setSocket } from "../redux/userSlice";
 
-export const serverUrl = "http://localhost:3030";
+export const serverUrl = "https://vingo-w4jv.onrender.com";
 function App() {
   const { userData } = useSelector((store) => store.user);
 

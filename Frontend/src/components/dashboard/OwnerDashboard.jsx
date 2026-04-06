@@ -3,7 +3,7 @@ import Nav from "./Nav";
 import { useSelector } from "react-redux";
 import { FaPen, FaUtensils } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
-import OwnerItemCard from "./ownerItemCard";
+import OwnerItemCard from "./OwnerItemCard";
 import { Key } from "lucide-react";
 
 const OwnerDashboard = () => {

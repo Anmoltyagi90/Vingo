@@ -3,6 +3,13 @@ import { sendOtpMail } from "../utils/mail.js";
 import getToken from "../utils/token.js";
 import bcrypt from "bcrypt";
 
+const getCookieOptions = (maxAge) => ({
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+  maxAge,
+});
+
 export const register = async (req, res) => {
   try {
     const { fullName, email, password, mobile, role } = req.body;
@@ -44,12 +51,7 @@ export const register = async (req, res) => {
 
     const token = await getToken(newUser._id); // ✅ FIX
 
-    res.cookie("token", token, {
-      secure: false,
-      sameSite: "strict",
-      maxAge: 5 * 24 * 60 * 60 * 1000,
-      httpOnly: true,
-    });
+    res.cookie("token", token, getCookieOptions(5 * 24 * 60 * 60 * 1000));
 
     return res.status(201).json({
       message: "User registered successfully",
@@ -100,12 +102,7 @@ export const Login = async (req, res) => {
 
     const token = await getToken(user._id);
 
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: false, // true only in production (https)
-      sameSite: "strict",
-      maxAge: 5 * 24 * 60 * 60 * 1000,
-    });
+    res.cookie("token", token, getCookieOptions(5 * 24 * 60 * 60 * 1000));
 
     return res.status(200).json({
       message: "User login successfully",
@@ -131,7 +128,7 @@ export const logout = async (req, res) => {
   try {
     return res
       .status(200)
-      .cookie("token", "", { maxAge: 0 })
+      .cookie("token", "", getCookieOptions(0))
       .json({ message: "logged out successfully", success: true });
   } catch (error) {
     console.log(error);
@@ -213,12 +210,7 @@ export const googleAuth = async (req, res) => {
 
     const token = await getToken(user._id);
 
-    res.cookie("token", token, {
-      secure: false,
-      sameSite: "strict",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-      httpOnly: true,
-    });
+    res.cookie("token", token, getCookieOptions(7 * 24 * 60 * 60 * 1000));
 
     return res.status(200).json({
       success: true,

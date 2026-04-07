@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import UserOrderCard from "../dashboard/userOrderCard";
+import UserOrderCard from "../dashboard/UserOrderCard";
 import OwnerOrderCard from "../dashboard/OwnerOrderCard";
 import useGetMyOrders from "../../hooks/useGetMyOrders";
 import {

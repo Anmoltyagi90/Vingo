@@ -1,5 +1,5 @@
 export const SERVER_BASE =
-  import.meta.env.VITE_API_BASE_URL || "https://vingo-w4jv.onrender.com/";
+  import.meta.env.VITE_API_BASE_URL ||"http://localhost:3030";
 
 export const SOCKET_BASE =
   import.meta.env.VITE_SOCKET_URL || SERVER_BASE;

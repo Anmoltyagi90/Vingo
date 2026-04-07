@@ -86,15 +86,18 @@ export const getMyShop = async (req, res) => {
 
 export const getShopByCity = async (req, res) => {
   try {
-    const { city } = req.params;
+    const city = (req.params.city || "").trim();
+    if (!city) {
+      return res.status(400).json({ message: "city is required" });
+    }
+
+    const safeCity = city.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
     const shop = await Shop.find({
-      city: { $regex: new RegExp(`^${city}$`, "i") },
+      // Flexible match for values like "Muzaffarnagar District", extra spaces, etc.
+      city: { $regex: new RegExp(safeCity, "i") },
     }).populate("items");
 
-    if (!shop) {
-      return res.status(400).json({ message: "shops not found" });
-    }
     return res.status(200).json(shop);
   } catch (error) {
     return res.status(500).json({ message: `get my shop error ${error}` });

@@ -110,15 +110,17 @@ export const deleteItem = async (req, res) => {
 
 export const getItemByCity = async (req, res) => {
   try {
-    const { city } = req.params;
+    const city = (req.params.city || "").trim();
 
     if (!city) {
       return res.status(400).json({ message: "City is required" });
     }
 
+    const safeCity = city.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
     // Find shops in that city (case insensitive)
     const shops = await Shop.find({
-      city: { $regex: new RegExp(`^${city}$`, "i") },
+      city: { $regex: new RegExp(safeCity, "i") },
     });
 
     // If no shops found → return empty array
@@ -158,7 +160,8 @@ export const getItemsByShop = async (req, res) => {
 };
 export const searchItems = async (req, res) => {
   try {
-    const { query, city } = req.query;
+    const query = (req.query.query || "").trim();
+    const city = (req.query.city || "").trim();
 
     // ✅ Proper validation
     if (!query || !city) {
@@ -168,8 +171,9 @@ export const searchItems = async (req, res) => {
     }
 
     // ✅ Find shops in city (case insensitive)
+    const safeCity = city.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     const shops = await Shop.find({
-      city: { $regex: `^${city}$`, $options: "i" },
+      city: { $regex: safeCity, $options: "i" },
     }).select("_id");
 
     if (shops.length === 0) {

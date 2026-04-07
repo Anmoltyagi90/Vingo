@@ -22,10 +22,9 @@ import TrackOrderPage from "./components/pages/TrackOrderPage";
 import Shop from "./components/pages/Shop";
 import { useEffect } from "react";
 import { io } from "socket.io-client";
-import { SERVER_URI } from "../utils/contanst.js";
+import { SOCKET_BASE } from "../utils/contanst.js";
 import { setSocket } from "../redux/userSlice";
 
-export const serverUrl = "http://localhost:3030";
 function App() {
   const { userData } = useSelector((store) => store.user);
 
@@ -39,7 +38,7 @@ function App() {
   useGetUpdateLocation();
 
   useEffect(() => {
-    const socketInstance = io(serverUrl, { withCredentials: true });
+    const socketInstance = io(SOCKET_BASE, { withCredentials: true });
     dispatch(setSocket(socketInstance));
     socketInstance.on("connect", () => {
       console.log("Socket connected. socket.id:", socketInstance.id);

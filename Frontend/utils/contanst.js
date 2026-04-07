@@ -1,11 +1,17 @@
-export const SERVER_URI = "http://localhost:3030/api/v1/auth";
+export const SERVER_BASE =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:3030";
 
-export const SERVER_USER = "http://localhost:3030/api/v1/user";
+export const SOCKET_BASE =
+  import.meta.env.VITE_SOCKET_URL || SERVER_BASE;
 
-export const SERVER_SHOP = "http://localhost:3030/api/v1/shop";
+export const SERVER_URI = `${SERVER_BASE}/api/v1/auth`;
 
-export const SERVER_ITEM = "http://localhost:3030/api/v1/item";
+export const SERVER_USER = `${SERVER_BASE}/api/v1/user`;
 
-export const SERVER_ORDER = "http://localhost:3030/api/v1/order";
+export const SERVER_SHOP = `${SERVER_BASE}/api/v1/shop`;
+
+export const SERVER_ITEM = `${SERVER_BASE}/api/v1/item`;
+
+export const SERVER_ORDER = `${SERVER_BASE}/api/v1/order`;
 
 
